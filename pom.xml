@@ -5,10 +5,10 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.victornieto</groupId>
-    <artifactId>springboot-base</artifactId>
+    <artifactId>sb-base</artifactId>
     <version>1.0-SNAPSHOT</version>
 
-    <name>uoc-springboot-base</name>
+    <name>sb-base</name>
     <description>Demo project for Spring Boot</description>
 
     <parent>
