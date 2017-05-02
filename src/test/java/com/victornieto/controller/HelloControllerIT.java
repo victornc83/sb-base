@@ -1,16 +1,15 @@
 package com.victornieto.controller;
 
-import com.victornieto.SbBaseApplication;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.embedded.LocalServerPort;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.web.WebAppConfiguration;
+import org.springframework.web.client.RestTemplate;
 
 import java.net.URL;
 
@@ -22,25 +21,25 @@ import static org.junit.Assert.assertThat;
  */
 
 @RunWith(SpringRunner.class)
-@ContextConfiguration(classes = SbBaseApplication.class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@WebAppConfiguration
+@ContextConfiguration
 public class HelloControllerIT {
-    @LocalServerPort
-    private int port ;
+
+    @Value("${service.endpoint}")
+    private String endpoint ;
 
     private URL base ;
 
-    @Autowired
-    private TestRestTemplate template ;
-
     @Before
     public void setUp() throws Exception {
-        this.base = new URL("http://localhost:" + port + "/api/v1/");
+        this.base = new URL(endpoint + "/api/v1/");
     }
 
     @Test
     public  void getHello() throws Exception {
+        RestTemplate template = new RestTemplate() ;
         ResponseEntity<String> response = template.getForEntity(base.toString(), String.class) ;
         assertThat(response.getBody(), equalTo("Hello World!!")) ;
+        assertThat(response.getStatusCode(), equalTo(HttpStatus.OK));
     }
 }
