@@ -22,4 +22,7 @@ public class HelloControllerTest {
         assertEquals(h.helloWorld(),"Hello World!!");
     }
 
+    @Test
+    public void byeWorld() { assertEquals(h.byeWorld(), "Bye World!!"); }
+
 }
