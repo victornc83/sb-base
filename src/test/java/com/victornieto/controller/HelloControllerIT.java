@@ -38,7 +38,7 @@ public class HelloControllerIT {
     @Test
     public void getHello() throws Exception {
         RestTemplate template = new RestTemplate() ;
-        ResponseEntity<String> response = template.getForEntity(base.toString(), String.class) ;
+        ResponseEntity<String> response = template.getForEntity(base.toString()+"/hello", String.class) ;
         assertThat(response.getBody(), equalTo("Hello World!!")) ;
         assertThat(response.getStatusCode(), equalTo(HttpStatus.OK));
     }
@@ -46,7 +46,7 @@ public class HelloControllerIT {
     @Test
     public void getBye() throws Exception {
         RestTemplate template = new RestTemplate() ;
-        ResponseEntity<String> response = template.getForEntity(base.toString(), String.class) ;
+        ResponseEntity<String> response = template.getForEntity(base.toString()+"/bye", String.class) ;
         assertThat(response.getBody(), equalTo("Bye World!!"));
         assertThat(response.getStatusCode(), equalTo(HttpStatus.OK));
     }
