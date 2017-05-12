@@ -35,7 +35,7 @@ node('maven'){
           return it.object().status.unavailableReplicas != 1
         }
       }
-      openshiftVerifyDeployment
+      openshiftVerifyDeployment deploymentConfig: "sb-base", replicaCount: '1', verifyReplicaCount: true
       deploy.logs()
     }
   }
