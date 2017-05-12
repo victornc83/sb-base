@@ -35,7 +35,6 @@ node('maven'){
           return it.object().status.unavailableReplicas != 1
         }
       }
-      openshiftVerifyDeployment deploymentConfig: "sb-base", replicaCount: '1', verifyReplicaCount: true
       deploy.logs()
     }
   }
@@ -58,6 +57,20 @@ node('maven'){
   stage('Promotion'){
     openshift.withCluster('clusterlab'){
       openshift.tag("sb-base:latest","sb-base:${v}")
+      openshift.tag("sb-base:latest","stage/sb-base:${v}")
+      echo "Watching deployment in staging"
+      openshift.withCluster('clusterlab'){
+        openshift.withProject('stage'){
+          def deploy = openshift.selector("dc","sb-base")
+          def deploy_ver = openshift.raw("get","dc","sb-base","--template={{.status.latestVersion}}").out.trim()
+          timeout(5){
+            deploy.watch {
+              return it.object().status.unavailableReplicas != 1
+            }
+          }
+          deploy.logs()
+        }
+      }
     }
   }
 }
