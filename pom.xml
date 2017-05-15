@@ -6,7 +6,7 @@
 
     <groupId>com.victornieto</groupId>
     <artifactId>sb-base</artifactId>
-    <version>2.0</version>
+    <version>0.1-SNAPSHOT</version>
 
     <name>sb-base</name>
     <description>Demo project for Spring Boot</description>
@@ -84,6 +84,20 @@
                 <configuration>
                     <skip>${surefire.skip}</skip>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>io.fabric8</groupId>
+                <artifactId>fabric8-maven-plugin</artifactId>
+                <version>3.2.28</version>
+                <executions>
+                    <execution>
+                        <id>fabric8</id>
+                        <goals>
+                            <goal>resource</goal>
+                            <goal>build</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
