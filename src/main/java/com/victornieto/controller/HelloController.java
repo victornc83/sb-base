@@ -14,7 +14,6 @@ public class HelloController {
 
     @GetMapping("/hello")
     public String helloWorld() throws UnknownHostException {
-        return "Hello World!! I am "+InetAddress.getLocalHost().getHostAddress();
     }
 
     @GetMapping("/bye")
