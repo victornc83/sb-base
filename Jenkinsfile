@@ -1,5 +1,5 @@
 node ('maven'){
-  @Library('github.com/redhat-helloworld-msa/jenkins-library@master')
+  @Library('github.com/victornc83/jenkins-library@master')
 
   def mvnCmd = 'mvn'
   def sonarUrl = env.SONAR_URL
