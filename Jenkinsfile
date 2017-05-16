@@ -15,13 +15,7 @@ node ('maven'){
   }
 
   stage('Unit Tests') {
-    sh "${mvnCmd} clean org.jacoco:jacoco-maven-plugin:prepare-agent verify -DskipITs=true"
-    step([$class: 'ArtifactArchiver', artifacts: '**/target/*.jar', excludes: null, fingerprint: true, onlyIfSuccessful: true])
-    try {
-      step([$class: 'JUnitResultArchiver', testResults: '**/target/surefire-reports/TEST-*.xml'])
-    } catch (err) {
-      echo "No unit tests result were found: ${err}"
-    }
+    unitTests()
   }
 
   stage('Analysis'){
@@ -31,7 +25,7 @@ node ('maven'){
 
   stage('Deploy in Dev'){
     echo 'Building docker image and deploying to Dev'
-    startBuild('clusterlab', 'stage', 'sb-base')
+    startBuild('clusterlab', 'stage', 'myapp')
     echo "This is the build number: ${env.BUILD_NUMBER}"
   }
 }
