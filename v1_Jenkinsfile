@@ -1,4 +1,4 @@
-mavenTemplate{
+node ('maven'){
   @Library('github.com/victornc83/jenkins-library@master')
 
   def mvnCmd = 'mvn'
@@ -25,8 +25,7 @@ mavenTemplate{
 
   stage('Deploy in Dev'){
     echo 'Building docker image and deploying to Dev'
-    startBuild('myapp')
+    startBuild('clusterlab-stage', 'stage', 'myapp')
     echo "This is the build number: ${env.BUILD_NUMBER}"
   }
-
 }
