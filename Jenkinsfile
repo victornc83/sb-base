@@ -1,7 +1,7 @@
 @Library('github.com/victornc83/jenkins-library@master') _
 
 mavenTemplate('stage'){
-
+  node('maven'){
     def mvnCmd = 'mvn'
     def sonarUrl = env.SONAR_URL
 
@@ -29,5 +29,5 @@ mavenTemplate('stage'){
       startBuild('myapp')
       echo "This is the build number: ${env.BUILD_NUMBER}"
     }
-
+  }
 }
