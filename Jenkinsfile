@@ -1,4 +1,4 @@
-mavenTemplate{
+mavenTemplate('stage'){
   @Library('github.com/victornc83/jenkins-library@master')
 
   def mvnCmd = 'mvn'
