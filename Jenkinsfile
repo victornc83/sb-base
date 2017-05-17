@@ -1,5 +1,5 @@
 mavenTemplate(namespace: 'stage'){
-  @Library('github.com/victornc83/jenkins-library@master')
+  @Library('github.com/victornc83/jenkins-library@master') _
 
   def mvnCmd = 'mvn'
   def sonarUrl = env.SONAR_URL
