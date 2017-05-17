@@ -25,7 +25,7 @@ node ('maven'){
 
   stage('Deploy in Dev'){
     echo 'Building docker image and deploying to Dev'
-    startBuild('clusterlab', 'stage', 'myapp')
+    startBuild('clusterlab-stage', 'stage', 'myapp')
     echo "This is the build number: ${env.BUILD_NUMBER}"
   }
 }
