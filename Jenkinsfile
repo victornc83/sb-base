@@ -29,5 +29,5 @@ mavenTemplate('stage'){
       startBuild('myapp')
       echo "This is the build number: ${env.BUILD_NUMBER}"
     }
-    
+
 }
