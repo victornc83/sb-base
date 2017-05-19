@@ -2,7 +2,6 @@
 
 mavenTemplate('stage'){
     def sonarUrl = env.SONAR_URL
-    def version = getVersion()
 
     stage('Git Checkout'){
       echo "Checking out git repository"
@@ -11,6 +10,7 @@ mavenTemplate('stage'){
 
     stage('Build'){
       echo "Building project"
+      def version = getVersion()
       sh "mvn clean package -DskipTests=true"
     }
 
