@@ -38,7 +38,7 @@ mavenTemplate('stage'){
 
     stage('Promoting image to Stage'){
       echo "Promoting project to Stage environment"
-      tagImage(project,image,'latest',version)
+      tagImage('stage','myapp','latest',version)
       newAppFromTemplate{
         template = 'java-promotion-template'
         project = 'prod'
