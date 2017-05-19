@@ -42,8 +42,8 @@ mavenTemplate('stage'){
       newAppFromTemplate{
         template = 'java-promotion-template'
         project = 'prod'
-        parameters = ['APPLICATION_NAME','VERSION','SOURCE_NAMESPACE']
-        values = ['myapp',version,'stage']
+        parameters = ['APPLICATION_NAME','VERSION']
+        values = ['myapp',version]
       }
     }
 
