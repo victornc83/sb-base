@@ -2,6 +2,7 @@
 
 mavenTemplate('stage'){
     def sonarUrl = env.SONAR_URL
+    def version = getVersion()
 
     stage('Git Checkout'){
       echo "Checking out git repository"
@@ -34,10 +35,15 @@ mavenTemplate('stage'){
       integrationTests('stage','myapp')
     }
 
-    stage('Promotion to Stage'){
+    stage('Promoting image to Stage'){
       echo "Promoting project to Stage environment"
-      //newAppFromTemplate(template, app, project)
-      //promoteImage(app, source, destination)
+      tagImage(project,image,'latest',version)
+      newAppFromTemplate{
+        template = 'java-promotion-template'
+        project = 'prod'
+        parameters = ['APPLICATION_NAME','VERSION','SOURCE_NAMESPACE']
+        values = ['myapp',version,'stage']
+      }
     }
 
 }
