@@ -9,7 +9,7 @@ mavenTemplate('stage'){
       echo "Checking out git repository"
       checkout scm
       version = getVersion()
-      repourl = sh(script: "git config --get remote.origin.url", returnOutput: true).trim()
+      repourl = sh(script: "git config --get remote.origin.url", returnStdout: true).trim()
     }
 
     stage('Build'){
