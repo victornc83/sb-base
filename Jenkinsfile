@@ -1,52 +1,25 @@
 @Library('github.com/victornc83/jenkins-library@master') _
 
-mavenTemplate('stage'){
+mavenTemplate('prod'){
     def sonarUrl = env.SONAR_URL
     def version = env.CHANGE_ID
 
-    stage('Git Checkout'){
-      echo "Checking out git repository"
-      checkout scm
-      version = getVersion()
-      sh "env"
+    stage('Deploy in Staging'){
+      echo "Tagging image"
+      promoteImage('stage', 'prod', 'myapp', '0.1-SNAPSHOT')
+      waitDeployIsComplete('prod', 'myapp')
     }
 
-    stage('Build'){
-      echo "Building project"
-      sh "mvn clean package -DskipTests=true"
+    stage('Regression Tests'){
+      echo "Running sanity checks"
     }
 
-    stage('Unit Tests') {
-      echo "Running Unit Tests"
-      unitTests()
+    stage('Exposing app') {
+      echo "Exposing app in Stage"
     }
 
-    stage('Analysis'){
-      echo "Analysis in Sonar ${sonarUrl}"
-      sh "mvn sonar:sonar -Dsonar.host.url=${sonarUrl}"
-    }
-
-    stage('Deploy in Dev'){
-      echo 'Building docker image and deploying to Dev'
-      startBuild('stage','myapp')
-      echo "This is the build number: ${env.BUILD_NUMBER}"
-    }
-
-    stage('Integration Tests'){
-      echo "Running integration tests"
-      integrationTests('stage','myapp')
-    }
-
-    stage('Promoting image to Stage'){
-      echo "Promoting project to Stage environment"
-      tagImage('stage','myapp','latest',version)
-      newAppFromTemplate{
-        name = 'myapp'
-        template = 'java-promotion-template'
-        project = 'prod'
-        parameters = ['APPLICATION_NAME','VERSION']
-        values = ['myapp',version]
-      }
+    stage('Performance Tests'){
+      echo "Perf tests"
     }
 
 }
