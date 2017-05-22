@@ -40,6 +40,7 @@ mavenTemplate('stage'){
       echo "Promoting project to Stage environment"
       tagImage('stage','myapp','latest',version)
       newAppFromTemplate{
+        name = 'myapp'
         template = 'java-promotion-template'
         project = 'prod'
         parameters = ['APPLICATION_NAME','VERSION']
