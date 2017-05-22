@@ -8,6 +8,7 @@ mavenTemplate('stage'){
       echo "Checking out git repository"
       checkout scm
       version = getVersion()
+      sh "env"
     }
 
     stage('Build'){
