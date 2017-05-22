@@ -46,7 +46,7 @@ mavenTemplate('stage'){
         template = 'java-promotion-template'
         project = 'prod'
         parameters = ['APPLICATION_NAME','VERSION','GIT_URI','GIT_REF']
-        values = ['myapp',version,repourl,'prod']
+        values = ['myapp',version,"${repourl}",'prod']
       }
     }
 
