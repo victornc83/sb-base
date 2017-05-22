@@ -3,13 +3,13 @@
 mavenTemplate('stage'){
     def sonarUrl = env.SONAR_URL
     def version = env.CHANGE_ID
-    def repourl
+    def repourl = ""
 
     stage('Git Checkout'){
       echo "Checking out git repository"
       checkout scm
       version = getVersion()
-      repourl = sh(script: "git config --get remote.origin.url", returnOutput: true)
+      repourl = sh(script: "git config --get remote.origin.url", returnOutput: true).trim()
     }
 
     stage('Build'){
