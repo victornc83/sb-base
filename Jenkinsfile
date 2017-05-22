@@ -31,6 +31,7 @@ mavenTemplate('stage'){
       echo 'Building docker image and deploying to Dev'
       startBuild('stage','myapp')
       echo "This is the build number: ${env.BUILD_NUMBER}"
+      waitDeployIsComplete('stage', 'myapp')
     }
 
     stage('Integration Tests'){
