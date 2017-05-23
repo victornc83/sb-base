@@ -39,15 +39,24 @@ mavenTemplate('stage'){
       integrationTests('stage','myapp')
     }
 
+    stage('Exposing service in Dev'){
+      echo "Creating route in Dev"
+      exposeSvc{
+        name = 'myapp'
+        project = 'stage'
+        service = 'myapp'
+      }
+    }
+
     stage('Promoting image to Stage'){
       echo "Promoting project to Stage environment"
       tagImage('stage','myapp','latest',version)
       newAppFromTemplate{
-        name = 'myapp'
-        template = 'java-promotion-template'
+        name = 'myapp-${version}'
+        template = 'uoc-sis-backend-promotion'
         project = 'prod'
         parameters = ['APPLICATION_NAME','VERSION','GIT_URI','GIT_REF']
-        values = ['myapp',version,"${repourl}",'prod']
+        values = ['myapp-${version}',version,"${repourl}",'prod']
       }
     }
 
