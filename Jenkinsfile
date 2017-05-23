@@ -45,7 +45,6 @@ mavenTemplate('stage'){
       echo "Creating route in Dev"
       exposeSvc{
         name = "${appName}"
-        project = "${project}"
         service = "${appName}"
       }
     }
