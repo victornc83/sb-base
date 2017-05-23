@@ -4,6 +4,8 @@ mavenTemplate('stage'){
     def sonarUrl = env.SONAR_URL
     def version = env.CHANGE_ID
     def repourl = ""
+    def appName = 'myapp'
+    def project = 'stage'
 
     stage('Git Checkout'){
       echo "Checking out git repository"
@@ -29,34 +31,35 @@ mavenTemplate('stage'){
 
     stage('Deploy in Dev'){
       echo 'Building docker image and deploying to Dev'
-      startBuild('stage','myapp')
+      startBuild(project,appName)
       echo "This is the build number: ${env.BUILD_NUMBER}"
-      waitDeployIsComplete('stage', 'myapp')
+      waitDeployIsComplete(project, appName)
     }
 
     stage('Integration Tests'){
       echo "Running integration tests"
-      integrationTests('stage','myapp')
+      integrationTests(project,appName)
     }
 
     stage('Exposing service in Dev'){
       echo "Creating route in Dev"
       exposeSvc{
-        name = 'myapp'
-        project = 'stage'
-        service = 'myapp'
+        name = appName
+        project = project
+        service = appName
       }
     }
 
     stage('Promoting image to Stage'){
       echo "Promoting project to Stage environment"
-      tagImage('stage','myapp','latest',version)
+      def nameVer = sh(script: "echo ${appName} | tr -d '.-'",returnStdout: true)
+      tagImage(project,appName,'latest',version)
       newAppFromTemplate{
-        name = "myapp"
+        name = nameVer
         template = 'uoc-sis-backend-promotion'
         project = 'prod'
         parameters = ['APPLICATION_NAME','VERSION','GIT_URI','GIT_REF']
-        values = ["myapp",version,"${repourl}",'prod']
+        values = [nameVer,version,"${repourl}",'prod']
       }
     }
 
