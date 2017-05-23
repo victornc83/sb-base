@@ -44,9 +44,9 @@ mavenTemplate('stage'){
     stage('Exposing service in Dev'){
       echo "Creating route in Dev"
       exposeSvc{
-        name = appName
-        project = project
-        service = appName
+        name = "${appName}"
+        project = "${project}"
+        service = "${appName}"
       }
     }
 
@@ -55,7 +55,7 @@ mavenTemplate('stage'){
       def nameVer = sh(script: "echo ${appName} | tr -d '.-'",returnStdout: true)
       tagImage(project,appName,'latest',version)
       newAppFromTemplate{
-        name = nameVer
+        name = "${nameVer}"
         template = 'uoc-sis-backend-promotion'
         project = 'prod'
         parameters = ['APPLICATION_NAME','VERSION','GIT_URI','GIT_REF']
