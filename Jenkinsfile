@@ -5,7 +5,7 @@ mavenTemplate('stage'){
     def version = env.CHANGE_ID
     def repourl = ""
     def appName = 'myapp'
-    def project = 'stage'
+    def namespace = 'stage'
 
     stage('Git Checkout'){
       echo "Checking out git repository"
@@ -31,28 +31,29 @@ mavenTemplate('stage'){
 
     stage('Deploy in Dev'){
       echo 'Building docker image and deploying to Dev'
-      startBuild(project,appName)
+      startBuild(namespace,appName)
       echo "This is the build number: ${env.BUILD_NUMBER}"
-      waitDeployIsComplete(project, appName)
+      waitDeployIsComplete(namespace, appName)
     }
 
     stage('Integration Tests'){
       echo "Running integration tests"
-      integrationTests(project,appName)
+      integrationTests(namespace,appName)
     }
 
     stage('Exposing service in Dev'){
       echo "Creating route in Dev"
       exposeSvc{
-        name = "${appName}"
-        service = "${appName}"
+        name = appName
+        project = namespace
+        service = appName
       }
     }
 
     stage('Promoting image to Stage'){
       echo "Promoting project to Stage environment"
       def nameVer = sh(script: "echo ${appName} | tr -d '.-'",returnStdout: true)
-      tagImage(project,appName,'latest',version)
+      tagImage(namespace,appName,'latest',version)
       newAppFromTemplate{
         name = "${nameVer}"
         template = 'uoc-sis-backend-promotion'
