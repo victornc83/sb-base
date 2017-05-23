@@ -16,6 +16,9 @@ mavenTemplate('prod'){
 
     stage('Exposing app') {
       echo "Exposing app in Stage"
+      exposeSvc{
+          
+      }
     }
 
     stage('Performance Tests'){
