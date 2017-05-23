@@ -52,10 +52,10 @@ mavenTemplate('stage'){
 
     stage('Promoting image to Stage'){
       echo "Promoting project to Stage environment"
-      def nameVer = sh(script: "echo ${appName} | tr -d '.-'",returnStdout: true)
+      def nameVer = sh(script: "echo ${appName} | tr -d '.-'",returnStdout: true).trim()
       tagImage(namespace,appName,'latest',version)
       newAppFromTemplate{
-        name = "${nameVer}"
+        name = nameVer
         template = 'uoc-sis-backend-promotion'
         project = 'prod'
         parameters = ['APPLICATION_NAME','VERSION','GIT_URI','GIT_REF']
