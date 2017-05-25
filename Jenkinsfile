@@ -6,7 +6,7 @@ mavenTemplate('prod'){
 
     stage('Deploy in Staging'){
       echo "Tagging image"
-      promoteImage('stage', 'prod', 'myapp', '0.1-SNAPSHOT')
+      promoteImage('stage', 'prod', 'myapp', version)
       waitDeployIsComplete('prod', 'myapp')
     }
 
