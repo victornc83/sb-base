@@ -2,7 +2,7 @@
 
 mavenTemplate('prod'){
     def sonarUrl = env.SONAR_URL
-    def version = env.CHANGE_ID
+    def version = '0.1-SNAPSHOT'
 
     stage('Deploy in Staging'){
       echo "Tagging image"
