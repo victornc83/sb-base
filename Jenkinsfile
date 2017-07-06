@@ -31,6 +31,8 @@ mavenTemplate('stage'){
 
     stage('Deploy in Dev'){
       echo 'Building docker image and deploying to Dev'
+      sh "rm -rf oc-build && mkdir -p oc-build/deployments"
+      sh "cp target/*.jar oc-build/deployments/"
       startBuild(namespace,appName)
       echo "This is the build number: ${env.BUILD_NUMBER}"
       waitDeployIsComplete(namespace, appName)
