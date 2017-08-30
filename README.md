@@ -27,3 +27,5 @@ $ oc new-app sb-base-2
 $ oc set probe dc/sb-base-2 --readiness --get-url=https://:8080/ --initial-delay-seconds=90
 $ oc set probe dc/sb-base-2 --liveness --get-url=https://:8080/ --initial-delay-seconds=90
 ```
+
+Test!!
